@@ -1,0 +1,72 @@
+@page "/pagos"
+@using LendApp.Shared.Modelo
+@inject HttpClient Http
+@inject NavigationManager Navegar
+
+<h3>Tabla de Pagos</h3>
+<button class="btn btn-primary" @onclick="AgregarPago"><span class="oi oi-plus"></span> Nuevo Pago</button>
+
+@if (_losPagos == null)
+{
+    <h1>Cargando datos...</h1>
+} else if (_losPagos.Count == 0)
+{
+    <h1>No existen Pagos registrados</h1>
+} else
+{
+    <table class="table table-striped table-responsive table-hover w-auto">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ID del Cliente</th>
+            <th>ID del Prestamo</th>
+            <th>Fecha de Pago</th>
+            <th>Monto Pagado</th>
+            <th>Numero de Couta</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var elPago in _losPagos)
+        {
+            <tr>
+                <td>@elPago.PagoId</td>
+                <td>@elPago.ClienteId</td>
+                <td>@elPago.PrestamoId</td>
+                <td>@elPago.FechaPago</td>
+                <td>@elPago.MontoPagado</td>
+                <td>@elPago.NumeroCuota</td>
+                <td>
+                    <button class="btn-sm btn-primary oi oi-pencil" @onclick="(() =>Modificar(elPago.PagoId))"></button>
+                    <button class="btn-sm btn-danger oi oi-trash" @onclick="(() =>Eliminar(elPago.PagoId))"></button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Pago>? _losPagos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/pagos");
+    }
+
+    private void AgregarPago()
+    {
+        Navegar.NavigateTo("/pagos/nuevo");
+    }
+
+    private void Modificar(int id)
+    {
+        Navegar.NavigateTo($"/pagos/modificar/{id}");
+    }
+
+    private async Task Eliminar(int id)
+    {
+        await Http.DeleteAsync($"api/pagos/{id}");
+        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/pagos");
+    }
+}

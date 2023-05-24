@@ -1,0 +1,70 @@
+﻿@page "/prestamos/nuevo"
+@using LendApp.Shared.Modelo
+@inject HttpClient Http
+@inject NavigationManager Navegar
+
+<h3>Nueva Prestamo</h3>
+
+<EditForm Model="_elPrestamo" OnValidSubmit="GuardarPrestamo">
+    <DataAnnotationsValidator />
+    
+    <div class="mb-3">
+        <label for="txtIdPrestamo" class="form-label">Id del Préstamo</label>
+        <InputNumber id="txtIdPrestamo" class="form-control" @bind-Value="_elPrestamo.PrestamoId" />
+        <ValidationMessage For="(() => _elPrestamo.PrestamoId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtIdCliente" class="form-label">Id del Cliente</label>
+        <InputNumber id="txtIdCliente" class="form-control" @bind-Value="_elPrestamo.ClienteId" />
+        <ValidationMessage For="(() => _elPrestamo.ClienteId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtMontoPrestamo" class="form-label">Monto del Préstamo</label>
+        <InputNumber id="txtMontoPrestamo" class="form-control" @bind-Value="_elPrestamo.MontoPrestamo" />
+        <ValidationMessage For="(() => _elPrestamo.MontoPrestamo)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtInteres" class="form-label">Interés</label>
+        <InputNumber id="txtInteres" class="form-control" @bind-Value="_elPrestamo.Interes" />
+        <ValidationMessage For="(() => _elPrestamo.Interes)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtTipoPrestamo" class="form-label">Tipo de Préstamo</label>
+        <InputText id="txtTipoPrestamo" class="form-control" @bind-Value="_elPrestamo.TipoPrestamo" />
+        <ValidationMessage For="(() => _elPrestamo.TipoPrestamo)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtPlanesPago" class="form-label">Planes de Pago</label>
+        <InputNumber id="txtPlanesPago" class="form-control" @bind-Value="_elPrestamo.PlanPago" />
+        <ValidationMessage For="(() => _elPrestamo.PlanPago)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtFechaOtorgamiento" class="form-label">Fecha de Otorgamiento</label>
+        <InputDate id="txtFechaOtorgamiento" class="form-control" @bind-Value="_elPrestamo.FechaOtorgamiento" />
+        <ValidationMessage For="(() => _elPrestamo.FechaOtorgamiento)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtSaldoRestante" class="form-label">Saldo Restante</label>
+        <InputNumber id="txtSaldoRestante" class="form-control" @bind-Value="_elPrestamo.SaldoRestante" />
+        <ValidationMessage For="(() => _elPrestamo.SaldoRestante)" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</EditForm>
+
+@code {
+    private Prestamo _elPrestamo = new Prestamo();
+
+    private async void GuardarPrestamo()
+    {
+        await Http.PostAsJsonAsync("api/prestamos", _elPrestamo);
+        Navegar.NavigateTo("/prestamos");
+    }
+}

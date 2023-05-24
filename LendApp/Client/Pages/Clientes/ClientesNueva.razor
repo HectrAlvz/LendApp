@@ -1,0 +1,58 @@
+﻿@page "/clientes/nuevo"
+@using LendApp.Shared.Modelo
+@inject HttpClient Http
+@inject NavigationManager Navegar
+
+<h3>Nuevo Cliente</h3>
+
+<EditForm Model="_elCliente" OnValidSubmit="GuardarCliente">
+    <DataAnnotationsValidator />
+    
+    <div class="mb-3">
+        <label for="txtId" class="form-label">ID</label>
+        <InputNumber id="txtId" class="form-control" @bind-Value="_elCliente.ClienteId" disabled />
+        <ValidationMessage For="(() => _elCliente.ClienteId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre Completo</label>
+        <InputText id="txtNombre" class="form-control" @bind-Value="_elCliente.NombreCompleto" />
+        <ValidationMessage For="(() => _elCliente.NombreCompleto)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtDireccion" class="form-label">Dirección</label>
+        <InputText id="txtDireccion" class="form-control" @bind-Value="_elCliente.Direccion" />
+        <ValidationMessage For="(() => _elCliente.Direccion)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtTelefono" class="form-label">Teléfono</label>
+        <InputText id="txtTelefono" class="form-control" @bind-Value="_elCliente.Telefono" />
+        <ValidationMessage For="(() => _elCliente.Telefono)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtFechaRegistro" class="form-label">Fecha de registro</label>
+        <InputDate id="txtFechaRegistro" class="form-control" @bind-Value="_elCliente.FechaRegistro" />
+        <ValidationMessage For="(() => _elCliente.FechaRegistro)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtEstatus" class="form-label">Estatus de Pago</label>
+        <InputText id="txtEstatus" class="form-control" @bind-Value="_elCliente.EstatusPago" />
+        <ValidationMessage For="(() => _elCliente.EstatusPago)" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</EditForm>
+
+@code {
+    private Cliente _elCliente = new Cliente();
+
+    private async void GuardarCliente()
+    {
+        await Http.PostAsJsonAsync("api/clientes", _elCliente);
+        Navegar.NavigateTo("/clientes");
+    }
+}

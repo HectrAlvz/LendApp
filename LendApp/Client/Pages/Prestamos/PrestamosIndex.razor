@@ -1,0 +1,76 @@
+@page "/prestamos"
+@using LendApp.Shared.Modelo
+@inject HttpClient Http
+@inject NavigationManager Navegar
+
+<h3>Lista de Prestamos</h3>
+<button class="btn btn-primary" @onclick="AgregarPrestamo"><span class="oi oi-plus"></span> Nuevo Prestamo</button>
+
+@if (_losPrestamos == null)
+{
+    <h1>Cargando datos...</h1>
+} else if (_losPrestamos.Count == 0)
+{
+    <h1>No existen Prestamos registrados</h1>
+} else
+{
+    <table class="table table-striped table-responsive table-hover w-auto">
+        <thead>
+        <tr>
+            <th>ID Prestamo</th>
+            <th>ID prestamo</th>
+            <th>Monto del Préstamo</th>
+            <th>Interés</th>
+            <th>Tipo de Préstamo</th>
+            <th>Planes de Pago</th>
+            <th>Fecha de Otorgamiento</th>
+            <th>Saldo Restante</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var elPrestamo in _losPrestamos)
+        {
+            <tr>
+                <td>@elPrestamo.PrestamoId</td>
+                <td>@elPrestamo.PrestamoId</td>
+                <td>@elPrestamo.MontoPrestamo</td>
+                <td>@elPrestamo.Interes</td>
+                <td>@elPrestamo.TipoPrestamo</td>
+                <td>@elPrestamo.PlanPago</td>
+                <td>@elPrestamo.FechaOtorgamiento</td>
+                <td>@elPrestamo.SaldoRestante</td>
+                <td>
+                    <button class="btn-sm btn-primary oi oi-pencil" @onclick="(() =>Modificar(elPrestamo.PrestamoId))"></button>
+                    <button class="btn-sm btn-danger oi oi-trash" @onclick="(() =>Eliminar(elPrestamo.PrestamoId))"></button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Prestamo>? _losPrestamos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/prestamos");
+    }
+
+    private void AgregarPrestamo()
+    {
+        Navegar.NavigateTo("/prestamos/nuevo");
+    }
+
+    private void Modificar(int id)
+    {
+        Navegar.NavigateTo($"/prestamos/modificar/{id}");
+    }
+
+    private async Task Eliminar(int id)
+    {
+        await Http.DeleteAsync($"api/prestamos/{id}");
+        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/prestamos");
+    }
+}

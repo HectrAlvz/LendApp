@@ -1,0 +1,65 @@
+﻿@page "/pagos/modificar/{id:int}"
+@using LendApp.Shared.Modelo
+@inject HttpClient Http
+@inject NavigationManager Navegar
+
+<h3>Modificar Pago</h3>
+
+<EditForm Model="_elPago" OnValidSubmit="GuardarPago">
+    <DataAnnotationsValidator />
+    
+    <div class="mb-3">
+        <label for="txtIdPago" class="form-label">Id del Pago</label>
+        <InputNumber id="txtIdPago" class="form-control" @bind-Value="_elPago.PagoId" />
+        <ValidationMessage For="(() => _elPago.PagoId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtIdCliente" class="form-label">Id del Cliente</label>
+        <InputNumber id="txtIdCliente" class="form-control" @bind-Value="_elPago.ClienteId" />
+        <ValidationMessage For="(() => _elPago.ClienteId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtIdPrestamo" class="form-label">Id del Préstamo</label>
+        <InputNumber id="txtIdPrestamo" class="form-control" @bind-Value="_elPago.PrestamoId" />
+        <ValidationMessage For="(() => _elPago.PrestamoId)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtFechaPago" class="form-label">Fecha del Pago</label>
+        <InputDate id="txtFechaPago" class="form-control" @bind-Value="_elPago.FechaPago" />
+        <ValidationMessage For="(() => _elPago.FechaPago)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtMontoPagado" class="form-label">Monto Pagado</label>
+        <InputNumber id="txtMontoPagado" class="form-control" @bind-Value="_elPago.MontoPagado" />
+        <ValidationMessage For="(() => _elPago.MontoPagado)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="txtNumeroCuota" class="form-label">Número de Cuota</label>
+        <InputNumber id="txtNumeroCuota" class="form-control" @bind-Value="_elPago.NumeroCuota" />
+        <ValidationMessage For="(() => _elPago.NumeroCuota)" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Pago _elPago = new Pago();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _elPago = (await Http.GetFromJsonAsync<Pago>($"api/pagos/{Id}"))!;
+    }
+
+    private async void GuardarPago()
+    {
+        await Http.PutAsJsonAsync($"api/pagos/{Id}", _elPago);
+        Navegar.NavigateTo("/pagos");
+    }
+}
