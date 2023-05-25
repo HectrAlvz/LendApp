@@ -54,12 +54,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _elPago = (await Http.GetFromJsonAsync<Pago>($"api/pagos/{Id}"))!;
+        _elPago = (await Http.GetFromJsonAsync<Pago>($"api/Pago/{Id}"))!;
     }
 
     private async void GuardarPago()
     {
-        await Http.PutAsJsonAsync($"api/pagos/{Id}", _elPago);
+        await Http.PutAsJsonAsync($"api/Pago/{Id}", _elPago);
         Navegar.NavigateTo("/pagos");
     }
 }

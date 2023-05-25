@@ -51,7 +51,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/pagos");
+        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/Pago");
     }
 
     private void AgregarPago()
@@ -66,7 +66,7 @@
 
     private async Task Eliminar(int id)
     {
-        await Http.DeleteAsync($"api/pagos/{id}");
-        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/pagos");
+        await Http.DeleteAsync($"api/Pago/{id}");
+        _losPagos = await Http.GetFromJsonAsync<List<Pago>>("api/Pago");
     }
 }

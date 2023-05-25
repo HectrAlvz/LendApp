@@ -55,7 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/prestamos");
+        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/Prestamo");
     }
 
     private void AgregarPrestamo()
@@ -70,7 +70,7 @@
 
     private async Task Eliminar(int id)
     {
-        await Http.DeleteAsync($"api/prestamos/{id}");
-        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/prestamos");
+        await Http.DeleteAsync($"api/Prestamo/{id}");
+        _losPrestamos = await Http.GetFromJsonAsync<List<Prestamo>>("api/Prestamo");
     }
 }

@@ -52,7 +52,7 @@
 
     private async void GuardarCliente()
     {
-        await Http.PostAsJsonAsync("api/clientes", _elCliente);
+        await Http.PostAsJsonAsync("api/Cliente", _elCliente);
         Navegar.NavigateTo("/clientes");
     }
 }

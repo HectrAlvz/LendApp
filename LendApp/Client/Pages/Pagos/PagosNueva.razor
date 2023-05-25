@@ -52,7 +52,7 @@
 
     private async void GuardarPago()
     {
-        await Http.PostAsJsonAsync("api/pagos", _elPago);
+        await Http.PostAsJsonAsync("api/Pago", _elPago);
         Navegar.NavigateTo("/pagos");
     }
 }

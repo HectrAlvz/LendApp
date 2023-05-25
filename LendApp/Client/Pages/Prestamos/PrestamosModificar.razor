@@ -65,12 +65,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _elPrestamo = (await Http.GetFromJsonAsync<Prestamo>($"api/prestamos/{Id}"))!;
+        _elPrestamo = (await Http.GetFromJsonAsync<Prestamo>($"api/Prestamo/{Id}"))!;
     }
 
     private async void GuardarPrestamo()
     {
-        await Http.PutAsJsonAsync($"api/prestamos/{Id}", _elPrestamo);
+        await Http.PutAsJsonAsync($"api/Prestamo/{Id}", _elPrestamo);
         Navegar.NavigateTo("/prestamos");
     }
 }

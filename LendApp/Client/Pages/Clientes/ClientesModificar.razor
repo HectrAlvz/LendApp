@@ -54,12 +54,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _elCliente = (await Http.GetFromJsonAsync<Cliente>($"api/clientes/{Id}"))!;
+        _elCliente = (await Http.GetFromJsonAsync<Cliente>($"api/Cliente/{Id}"))!;
     }
 
     private async void GuardarCliente()
     {
-        await Http.PutAsJsonAsync($"api/clientes/{Id}", _elCliente);
+        await Http.PutAsJsonAsync($"api/Cliente/{Id}", _elCliente);
         Navegar.NavigateTo("/clientes");
     }
 }
