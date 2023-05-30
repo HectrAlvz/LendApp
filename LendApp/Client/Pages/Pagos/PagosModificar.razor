@@ -9,11 +9,11 @@
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="txtIdPrestamo" class="form-label">Id del Préstamo</label>
-        <InputSelect>
+        <InputSelect TValue="int" class="form-control" @bind-Value="_elPago.PrestamoId">
             <option id="txtIdPrestamo" value="">Seleccione el Prestamo</option>
             @foreach (var prestamo in _listaPrestamos)
             {
-                <option value="@prestamo.PrestamoId">@prestamo.NombreCliente</option>
+                <option value="@prestamo.PrestamoId">@prestamo.PrestamoId, @prestamo.NombreCliente</option>
             }
         </InputSelect>
     </div>

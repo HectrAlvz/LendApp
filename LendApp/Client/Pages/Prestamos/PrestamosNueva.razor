@@ -12,11 +12,11 @@
     @* Cliente ID *@
     <div class="mb-3">
         <label for="txtIdCliente" class="form-label">Id del Cliente</label>
-        <InputSelect>
+        <InputSelect TValue="int" class="form-control" @bind-Value="_elPrestamo.ClienteId">
             <option id="txtIdCliente" value="">Seleccione un cliente</option>
             @foreach (var cliente in _listaClientes)
             {
-                <option value="@cliente.ClienteId">@cliente.NombreCompleto</option>
+                <option value="@cliente.ClienteId">@cliente.ClienteId, @cliente.NombreCompleto</option>
             }
         </InputSelect>
     </div>
@@ -24,11 +24,11 @@
     @* Nombre del Cliente *@
     <div class="mb-3">
         <label for="txtNombreCliente" class="form-label">Nombre Cliente</label>
-        <InputSelect>
+        <InputSelect TValue="string" class="form-control" @bind-Value="_elPrestamo.NombreCliente">
             <option id="txtNombreCliente" value="">Seleccione el Nombre</option>
             @foreach (var cliente in _listaClientes)
             {
-                <option value="@cliente.NombreCompleto">@cliente.NombreCompleto</option>
+                <option value="@cliente.NombreCompleto">@cliente.ClienteId, @cliente.NombreCompleto</option>
             }
         </InputSelect>
     </div>
@@ -57,7 +57,8 @@
     @* Tipo de préstamo *@
     <div class="mb-3">
         <label for="txtTipoPrestamo" class="form-label">Tipo de préstamo</label>
-        <InputSelect id="txtTipoPrestamo" class="form-control" @bind-Value="_elPrestamo.TipoPrestamo">
+        <InputSelect class="form-control" @bind-Value="_elPrestamo.TipoPrestamo">
+            <option id="txtTipoPrestamo" value="">Seleccione el Tipo de Prestamo</option>
             <option value="Semanal">Semanal</option>
             <option value="Quincenal">Quincenal</option>
             <option value="Mensual">Mensual</option>
