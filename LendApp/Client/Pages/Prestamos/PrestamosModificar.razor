@@ -104,7 +104,7 @@
     private async void GuardarPrestamo()
     {
         await Http.PutAsJsonAsync($"api/Pestamo/{Id}", _elPrestamo);
-        Navegar.NavigateTo("/Pestamo");
+        Navegar.NavigateTo("/prestamos");
     }
 }
 @* ReSharper restore UnnecessaryWhitespace *@

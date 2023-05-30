@@ -101,6 +101,6 @@
     private async void GuardarPrestamo()
     {
         await Http.PostAsJsonAsync("api/Prestamo", _elPrestamo);
-        Navegar.NavigateTo("/Prestamos");
+        Navegar.NavigateTo("/prestamos");
     }
 }
