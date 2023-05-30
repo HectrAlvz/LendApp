@@ -7,23 +7,15 @@
 
 <EditForm Model="_elPago" OnValidSubmit="GuardarPago">
     <DataAnnotationsValidator />
-    
-    <div class="mb-3">
-        <label for="txtIdPago" class="form-label">Id del Pago</label>
-        <InputNumber id="txtIdPago" class="form-control" @bind-Value="_elPago.PagoId" />
-        <ValidationMessage For="(() => _elPago.PagoId)" />
-    </div>
-    
-    <div class="mb-3">
-        <label for="txtIdCliente" class="form-label">Id del Cliente</label>
-        <InputNumber id="txtIdCliente" class="form-control" @bind-Value="_elPago.ClienteId" />
-        <ValidationMessage For="(() => _elPago.ClienteId)" />
-    </div>
-    
     <div class="mb-3">
         <label for="txtIdPrestamo" class="form-label">Id del Préstamo</label>
-        <InputNumber id="txtIdPrestamo" class="form-control" @bind-Value="_elPago.PrestamoId" />
-        <ValidationMessage For="(() => _elPago.PrestamoId)" />
+        <InputSelect>
+            <option id="txtIdPrestamo" value="">Seleccione el Prestamo</option>
+            @foreach (var prestamo in _listaPrestamos)
+            {
+                <option value="@prestamo.PrestamoId">@prestamo.NombreCliente</option>
+            }
+        </InputSelect>
     </div>
     
     <div class="mb-3">
@@ -39,22 +31,30 @@
     </div>
     
     <div class="mb-3">
-        <label for="txtNumeroCuota" class="form-label">Número de Cuota</label>
-        <InputNumber id="txtNumeroCuota" class="form-control" @bind-Value="_elPago.NumeroCuota" />
+        <label for="NumeroCuota" class="form-label">Número de Cuota</label>
+        <InputNumber id="NumeroCuota" class="form-control" @bind-Value="_elPago.NumeroCuota" />
         <ValidationMessage For="(() => _elPago.NumeroCuota)" />
     </div>
     
     <button type="submit" class="btn btn-primary">Guardar</button>
 </EditForm>
 
+@* ReSharper disable once UnnecessaryWhitespace *@
 @code {
     [Parameter]
     public int Id { get; set; }
     private Pago _elPago = new Pago();
+    
+    private List<Prestamo> _listaPrestamos = new List<Prestamo>();
 
     protected override async Task OnInitializedAsync()
     {
         _elPago = (await Http.GetFromJsonAsync<Pago>($"api/Pago/{Id}"))!;
+    // ReSharper disable UnnecessaryWhitespace
+        
+    // ReSharper restore UnnecessaryWhitespace
+    // Obtener la lista de prestamos desde el servidor
+        _listaPrestamos = (await Http.GetFromJsonAsync<List<Prestamo>>("api/Prestamo"))!;
     }
 
     private async void GuardarPago()

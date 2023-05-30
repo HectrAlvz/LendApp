@@ -17,12 +17,11 @@
     <table class="table table-striped table-responsive table-hover w-auto">
         <thead>
         <tr>
-            <th>ID del cliente</th>
+            <th>Id</th>
             <th>Nombre</th>
             <th>Dirección</th>
             <th>Teléfono</th>
             <th>Fecha de registro</th>
-            <th>Estatus de pago</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -35,7 +34,6 @@
                 <td>@elCliente.Direccion</td>
                 <td>@elCliente.Telefono</td>
                 <td>@elCliente.FechaRegistro</td>
-                <td>@elCliente.EstatusPago</td>
                 <td>
                     <button class="btn-sm btn-primary oi oi-pencil" @onclick="(() =>Modificar(elCliente.ClienteId))"></button>
                     <button class="btn-sm btn-danger oi oi-trash" @onclick="(() =>Eliminar(elCliente.ClienteId))"></button>

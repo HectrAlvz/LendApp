@@ -1,5 +1,6 @@
 ﻿@page "/prestamos/nuevo"
 @using LendApp.Shared.Modelo
+@using System.Diagnostics.CodeAnalysis
 @inject HttpClient Http
 @inject NavigationManager Navegar
 
@@ -8,63 +9,97 @@
 <EditForm Model="_elPrestamo" OnValidSubmit="GuardarPrestamo">
     <DataAnnotationsValidator />
     
-    <div class="mb-3">
-        <label for="txtIdPrestamo" class="form-label">Id del Préstamo</label>
-        <InputNumber id="txtIdPrestamo" class="form-control" @bind-Value="_elPrestamo.PrestamoId" />
-        <ValidationMessage For="(() => _elPrestamo.PrestamoId)" />
-    </div>
-    
+    @* Cliente ID *@
     <div class="mb-3">
         <label for="txtIdCliente" class="form-label">Id del Cliente</label>
-        <InputNumber id="txtIdCliente" class="form-control" @bind-Value="_elPrestamo.ClienteId" />
-        <ValidationMessage For="(() => _elPrestamo.ClienteId)" />
+        <InputSelect>
+            <option id="txtIdCliente" value="">Seleccione un cliente</option>
+            @foreach (var cliente in _listaClientes)
+            {
+                <option value="@cliente.ClienteId">@cliente.NombreCompleto</option>
+            }
+        </InputSelect>
     </div>
     
+    @* Nombre del Cliente *@
     <div class="mb-3">
-        <label for="txtMontoPrestamo" class="form-label">Monto del Préstamo</label>
-        <InputNumber id="txtMontoPrestamo" class="form-control" @bind-Value="_elPrestamo.MontoPrestamo" />
-        <ValidationMessage For="(() => _elPrestamo.MontoPrestamo)" />
+        <label for="txtNombreCliente" class="form-label">Nombre Cliente</label>
+        <InputSelect>
+            <option id="txtNombreCliente" value="">Seleccione el Nombre</option>
+            @foreach (var cliente in _listaClientes)
+            {
+                <option value="@cliente.NombreCompleto">@cliente.NombreCompleto</option>
+            }
+        </InputSelect>
     </div>
     
+    @* Monto Prestado *@
+    <div class="mb-3">
+        <label for="txtMontoPrestado" class="form-label">Monto Prestado</label>
+        <InputNumber id="txtMontoPrestado" class="form-control" @bind-Value="_elPrestamo.MontoPrestado" />
+        <ValidationMessage For="(() => _elPrestamo.MontoPrestado)" />
+    </div>
+    
+    @* $1$ Monto poe Couta #1# *@
+    @* <div class="mb-3"> *@
+    @*     <label for="txtMontoCouta" class="form-label">Monto por Couta</label> *@
+    @*     <InputNumber id="txtMontoCouta" class="form-control" @bind-Value="_elPrestamo.MontoCuota" /> *@
+    @*     <ValidationMessage For="(() => _elPrestamo.MontoCuota)" /> *@
+    @* </div> *@
+    
+    @* Interés *@
     <div class="mb-3">
         <label for="txtInteres" class="form-label">Interés</label>
         <InputNumber id="txtInteres" class="form-control" @bind-Value="_elPrestamo.Interes" />
         <ValidationMessage For="(() => _elPrestamo.Interes)" />
     </div>
     
+    @* Tipo de préstamo *@
     <div class="mb-3">
-        <label for="txtTipoPrestamo" class="form-label">Tipo de Préstamo</label>
-        <InputText id="txtTipoPrestamo" class="form-control" @bind-Value="_elPrestamo.TipoPrestamo" />
+        <label for="txtTipoPrestamo" class="form-label">Tipo de préstamo</label>
+        <InputSelect id="txtTipoPrestamo" class="form-control" @bind-Value="_elPrestamo.TipoPrestamo">
+            <option value="Semanal">Semanal</option>
+            <option value="Quincenal">Quincenal</option>
+            <option value="Mensual">Mensual</option>
+            <option value="Bimensual">Bimensual</option>
+            <option value="Trimestral">Trimestral</option>
+        </InputSelect>
         <ValidationMessage For="(() => _elPrestamo.TipoPrestamo)" />
     </div>
     
+    @* Plazo del préstamo *@
     <div class="mb-3">
-        <label for="txtPlanesPago" class="form-label">Planes de Pago</label>
-        <InputNumber id="txtPlanesPago" class="form-control" @bind-Value="_elPrestamo.PlanPago" />
-        <ValidationMessage For="(() => _elPrestamo.PlanPago)" />
+        <label for="txtPlanesPago" class="form-label">Plazo de Préstamo</label>
+        <InputNumber id="txtPlanesPago" class="form-control" @bind-Value="_elPrestamo.PlanesPago" />
+        <ValidationMessage For="(() => _elPrestamo.PlanesPago)" />
     </div>
     
+    @* Fecha de Ortorgamiento *@
     <div class="mb-3">
-        <label for="txtFechaOtorgamiento" class="form-label">Fecha de Otorgamiento</label>
-        <InputDate id="txtFechaOtorgamiento" class="form-control" @bind-Value="_elPrestamo.FechaOtorgamiento" />
-        <ValidationMessage For="(() => _elPrestamo.FechaOtorgamiento)" />
-    </div>
-    
-    <div class="mb-3">
-        <label for="txtSaldoRestante" class="form-label">Saldo Restante</label>
-        <InputNumber id="txtSaldoRestante" class="form-control" @bind-Value="_elPrestamo.SaldoRestante" />
-        <ValidationMessage For="(() => _elPrestamo.SaldoRestante)" />
+        <label for="txtFechaOtorgamiento" class="form-label">Fecha Ortorgada</label>
+        <InputDate id="txtFechaOtorgamiento" class="form-control" @bind-Value="_elPrestamo.FechaOtorgada" />
+        <ValidationMessage For="(() => _elPrestamo.FechaOtorgada)" />
     </div>
     
     <button type="submit" class="btn btn-primary">Guardar</button>
 </EditForm>
 
+@* ReSharper disable once UnnecessaryWhitespace *@
 @code {
     private Prestamo _elPrestamo = new Prestamo();
+    
+    private List<Cliente> _listaClientes = new List<Cliente>();
+
+    [SuppressMessage("ReSharper", "UnnecessaryWhitespace")]
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista de clientes desde el servidor
+        _listaClientes = (await Http.GetFromJsonAsync<List<Cliente>>("api/Cliente"))!;
+    }
 
     private async void GuardarPrestamo()
     {
         await Http.PostAsJsonAsync("api/Prestamo", _elPrestamo);
-        Navegar.NavigateTo("/prestamos");
+        Navegar.NavigateTo("/Prestamos");
     }
 }

@@ -6,10 +6,11 @@ public class Cliente
 {
     //Id
     public int ClienteId { get; set; }
+
     //Nombre
     [Required(ErrorMessage = "No tienes nombre?"), MaxLength(100)]
     public string? NombreCompleto { get; set; }
-        
+
     //Direccion
     [Required(ErrorMessage = "No tienes direccion?"), MaxLength(100)]
     public string? Direccion { get; set; }
@@ -20,14 +21,6 @@ public class Cliente
 
     //Fecha de Registro
     [Required(ErrorMessage = "No tienes fecha de registro?")]
-    public DateTime FechaRegistro { get; set; }
-    
-    //Estatus de pago
-    [Required(ErrorMessage = "Cual es tu estatus de pago?")]
-    public string EstatusPago { get; set; }
-    
-    //PrestamoId
-    public int? PrestamoId { get; set; }
-    public virtual Prestamo? Prestamo { get; set; }
-    public virtual ICollection<Pago>? Pagos { get; set; }
+    [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+    public DateTime? FechaRegistro { get; set; }
 }
