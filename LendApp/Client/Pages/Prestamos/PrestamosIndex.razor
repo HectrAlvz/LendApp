@@ -41,7 +41,7 @@
                 <td>@elPrestamo.Interes</td>
                 <td>@elPrestamo.TipoPrestamo</td>
                 <td>@elPrestamo.PlanesPago</td>
-                <td>@elPrestamo.FechaOtorgada</td>
+                <td>@elPrestamo.FechaOtorgada.ToString("dd/MM/yyyy")</td>
                 <td>
                     <button class="btn-sm btn-primary oi oi-pencil" @onclick="(() =>Modificar(elPrestamo.PrestamoId))"></button>
                     <button class="btn-sm btn-danger oi oi-trash" @onclick="(() =>Eliminar(elPrestamo.PrestamoId))"></button>

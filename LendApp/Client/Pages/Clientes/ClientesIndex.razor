@@ -33,7 +33,7 @@
                 <td>@elCliente.NombreCompleto</td>
                 <td>@elCliente.Direccion</td>
                 <td>@elCliente.Telefono</td>
-                <td>@elCliente.FechaRegistro</td>
+                <td>@elCliente.FechaRegistro.ToString("dd/MM/yyyy")</td>
                 <td>
                     <button class="btn-sm btn-primary oi oi-pencil" @onclick="(() =>Modificar(elCliente.ClienteId))"></button>
                     <button class="btn-sm btn-danger oi oi-trash" @onclick="(() =>Eliminar(elCliente.ClienteId))"></button>

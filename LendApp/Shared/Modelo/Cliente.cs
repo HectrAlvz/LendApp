@@ -22,5 +22,5 @@ public class Cliente
     //Fecha de Registro
     [Required(ErrorMessage = "No tienes fecha de registro?")]
     [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-    public DateTime? FechaRegistro { get; set; }
+    public DateTime FechaRegistro { get; set; }
 }
